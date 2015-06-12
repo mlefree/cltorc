@@ -9,7 +9,7 @@
     <div class="panel-group col-xs-12" id="accordion{{dashboardGetTextIdentifier(historicGroup)}}"
       role="tablist" aria-multiselectable="true"
       ng-repeat="(historicGroup, historicList) in historicsFiltered = (dashboardHistorics | filter : dashboardSearch | groupBy : 'actionTodoDate')">
-      <h4>{{dashboardDisplayHistoricCalendar(historicGroup)}}</h4>
+      <h4><span ng-bind-html="dashboardDisplayHistoricCalendar(historicGroup)"></span></h4>
       <div class="panel panel-default clearfix" ng-repeat="historic in historics = (historicList)">
 
         <div class="panel-heading col-xs-10"

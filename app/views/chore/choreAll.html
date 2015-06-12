@@ -75,8 +75,8 @@
                   <!--<img src="{{getChoreThumbPath(chore[choreCols.choreDescriptionCat])}}"class="img-circle" height="30px" style="position:absolute"/>-->
                 </div>
                 <a class="collapsed" style="padding-left:40px">
-                  <span class="visible-xs-inline">{{chore[choreCols.name] | cut:true:15:' ...'}}</span>
-                  <span class="hidden-xs">{{chore[choreCols.name] | cut:true:30:' ...'}}</span>
+                  <small class="visible-xs-inline" style="color:wheat">{{chore[choreCols.name] | cut:true:30:' ...'}}</small>
+                  <span class="hidden-xs">{{chore[choreCols.name] | cut:true:60:' ...'}}</span>
                 </a>
               </h4>
             </div>

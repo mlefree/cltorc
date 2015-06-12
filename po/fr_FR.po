@@ -10,36 +10,49 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "X-Generator: Poedit 1.8.1\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"Language: fr\n"
+"Language: fr_FR\n"
 
 #: app/views/user/userAll.html:29
 msgid "<i class=\"glyphicon glyphicon-cog\"></i> Les amoureux."
 msgstr "<i class=\"glyphicon glyphicon-cog\"></i> Les Zamoureux."
 
-#: app/views/login/loginIn.html:22
-msgid "Choose your language"
-msgstr "Choisissez votre langue"
+#: app/views/commons/footer.html:66
+msgid "Big Jump !"
+msgstr "On y va !"
+
+#: app/views/commons/footer.html:32 app/views/commons/footer.html:49
+#: app/views/commons/footer.html:70
+msgid "Compute"
+msgstr ""
 
 #: app/views/config/configItems.html:45
 msgid "HEADLINE"
-msgstr "FR Headline ????"
+msgstr ""
 
 #: app/views/config/configItems.html:46
 msgid "INTRO_TEXT"
-msgstr "INTRO FR ???"
+msgstr ""
 
-#: app/views/user/userAll.html:160
-msgid "Language"
-msgstr "Langage"
-
-#: app/views/login/loginIn.html:34
+#: app/views/login/loginIn.html:36
 msgid "LoginSignin"
-msgstr "Entrez"
+msgstr ""
 
 #: app/views/login/loginIn.html:7
 msgid "LoginWelcome"
-msgstr "Vers un partage équitable des tâches"
+msgstr ""
+
+#: app/views/dashboard/dashboardAll.html:23
+msgid "Report"
+msgstr ""
 
 #: app/views/login/loginIn.html:15
 msgid "Valid Email"
-msgstr "Un email valide"
+msgstr ""
+
+#: app/views/commons/footer.html:29
+msgid "What ?"
+msgstr ""
+
+#: app/views/commons/footer.html:46
+msgid "When ?"
+msgstr ""

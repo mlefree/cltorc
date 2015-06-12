@@ -8,8 +8,14 @@ msgstr ""
 msgid "<i class=\"glyphicon glyphicon-cog\"></i> Les amoureux."
 msgstr ""
 
-#: app/views/login/loginIn.html:22
-msgid "Choose your language"
+#: app/views/commons/footer.html:66
+msgid "Big Jump !"
+msgstr ""
+
+#: app/views/commons/footer.html:32
+#: app/views/commons/footer.html:49
+#: app/views/commons/footer.html:70
+msgid "Compute"
 msgstr ""
 
 #: app/views/config/configItems.html:45
@@ -20,11 +26,7 @@ msgstr ""
 msgid "INTRO_TEXT"
 msgstr ""
 
-#: app/views/user/userAll.html:160
-msgid "Language"
-msgstr ""
-
-#: app/views/login/loginIn.html:34
+#: app/views/login/loginIn.html:36
 msgid "LoginSignin"
 msgstr ""
 
@@ -32,6 +34,18 @@ msgstr ""
 msgid "LoginWelcome"
 msgstr ""
 
+#: app/views/dashboard/dashboardAll.html:23
+msgid "Report"
+msgstr ""
+
 #: app/views/login/loginIn.html:15
 msgid "Valid Email"
+msgstr ""
+
+#: app/views/commons/footer.html:29
+msgid "What ?"
+msgstr ""
+
+#: app/views/commons/footer.html:46
+msgid "When ?"
 msgstr ""

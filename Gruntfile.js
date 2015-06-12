@@ -136,12 +136,54 @@ module.exports = function(grunt) {
 					'app/javascripts/languages/translation.js': ['po/*.po']
 				}
 			},
+		},
+		less: {
+			development: {
+				files: {
+					"app/stylesheets/main.css": "app/stylesheets/less/main.less"
+				}
+			}
+	  },
+		version: {
+			project: {
+				src: ['package.json', 'bower.json']
+			},
+			appconfig: {
+				options: {
+					prefix: 'appVersion","'
+				},
+				src: ['app/javascripts/config/config.js']
+			},
+			appxml: {
+				options: {
+					prefix: 'version\\s+=\\s+[\'"]'
+				},
+				src: ['app/config.xml']
+			}
+		},
+		watch: {
+			po_changed: {
+				files: ["po/*.po"],
+				tasks: ["nggettext_compile"]
+			},
+			update_pot: {
+				files: ['app/**/*.html'],
+				tasks: ["nggettext_extract"]
+			},
+			less_changed: {
+				files: ["app/stylesheets/less/*.less"],
+				tasks: ["less"]
+			}
 		}
 	});
 
 	// Load the plugin that provides the "uglify" task.
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-less');
+
+	grunt.loadNpmTasks('grunt-version');
 
 	grunt.loadNpmTasks('grunt-angular-templates');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
@@ -161,5 +203,6 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('translate:in',['nggettext_extract']);
 	grunt.registerTask('translate:out',['nggettext_compile']);
+	grunt.registerTask('version:all',['version:project:patch','version:appconfig','version:appxml']);
 
 };
