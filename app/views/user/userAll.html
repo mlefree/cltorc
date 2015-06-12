@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<!-- spinner -->
+<div ng-if="!userInitSpinnerStopped"
+mle-animateshow="!userInitSpinnerStopped"
+after-show="afterNavigationInitSpinnerShow()"
+after-hide="afterNavigationInitSpinnerHide()">
+<div ng-include="'views/commons/computeChore.html'"></div>
+</div>
+<!-- spinner -->
+
+<div ng-include="'views/commons/header.html'"></div>
+
+<div ng-if="userInitSpinnerStopped">
+
+  <article class="container">
+
+    <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+
+      <div class="row" ng-show="userErrMessage">
+        <div class="alert alert-warning alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <strong>Warning!</strong> {{userErrMessage}}
+        </div>
+      </div>
+
+      <div class="page-header" style="margin-top:0">
+        <h4 translate><i class="glyphicon glyphicon-cog"></i> Les amoureux.</h4>
+      </div>
+
+      <!--
+      <div class="row" ng-hide="appFirstInitDone">
+        <div class="alert alert-success alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h3>Welcome. Your email is linked to your couple chores.</h3>
+        </div>
+      </div>
+      -->
+
+      <div class="row">
+        <div class="panel-group" id="users" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default">
+
+            <!-- user A -->
+            <div class="panel-heading btn"
+              style="border:0;width:100%;text-align:left;"
+              role="tab"
+              id="userAH"
+              data-toggle="collapse" data-parent="#users" data-target="#userA" aria-expanded="false">
+              <h4 class="panel-title">
+                <a class="collapsed">
+                  {{userA[userCols.firstName] | cut:true:15:' ...'}}
+                </a>
+              </h4>
+            </div>
+            <div id="userA" class="panel-collapse collapse" role="tabpanel">
+              <div class="panel-body">
+
+                <form novalidate>
+                  <div class="form-group">
+                    <label for="firstName">Pseudo</label>
+                    <input type="text" class="form-control" id="firstName"
+                    ng-model="userA[userCols.firstName]" ng-change="userSave(userA)"/>
+                  </div>
+                  <!--<div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" ng-model="userA[userCols.lastName]" ng-change="userSave(userA)"/>
+                  </div>-->
+                  <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email"
+                          ng-model="userA[userCols.email]"
+                          data-toggle="modal" data-target="#modalUserLogout"
+                          readonly />
+                  </div>
+
+                  <!--<div class="form-group">
+                    <label for="color">Profil color</label>
+
+                    <div class="dropdown">
+                      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                        <img style="background:{{userA[userCols.profilColor]}}" class="img-circle" width="20px" height="20px"/>
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="userUpdateProfilColor(userA,'#333333')">Pink</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="userUpdateProfilColor(userA,'#696969')">Blue</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="userUpdateProfilColor(userA,'#999999')">Light</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="userUpdateProfilColor(userA,'#AAAAAA')">Creme</a></li>
+                      </ul>
+                    </div>
+                  </div>-->
+
+                </form>
+
+
+
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+
+            <!-- user B -->
+            <div class="panel-heading btn"
+              style="border:0;width:100%;text-align:left;"
+              role="tab"
+              id="userBH"
+              data-toggle="collapse" data-parent="#users" data-target="#userB" aria-expanded="false">
+              <h4 class="panel-title">
+                <a class="collapsed">
+                  {{userB[userCols.firstName] | cut:true:15:' ...'}}
+                </a>
+              </h4>
+            </div>
+            <div id="userB" class="panel-collapse collapse" role="tabpanel">
+              <div class="panel-body">
+                <form novalidate>
+                  <div class="form-group">
+                    <label for="firstName">Pseudo</label>
+                    <input type="text" class="form-control" id="firstName"
+                    ng-model="userB[userCols.firstName]" ng-change="userSave(userB)"/>
+                  </div>
+                  <!--<div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" ng-model="userB[userCols.lastName]" ng-change="userSave(userB)"></input>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="color">Profil color</label>
+                    <div class="dropdown">
+                      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                        <img style="background:{{userB[userCols.profilColor]}}" class="img-circle" width="20px" height="20px"/>
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                      </ul>
+                    </div>
+
+                  </div>-->
+
+                </form>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <!-- //TODO !!
+
+      <div class="row">
+        <form novalidate>
+          <div class="form-group">
+            <label for="userLang" translate>Language</label>
+            <select ng-model="navigLang" class="form-control input-large"
+              ng-options="style.title for style in navigLangs"
+              ng-change="navigationChangeLang(navigLang.code)"></select>
+          </div>
+        </form>
+      </div>
+
+
+
+      <div class="row">
+        <label for="userHasRead">Are you agree ?</label>
+        <input type="checkbox" class="form-control" id="userHasRead" >test</input>
+      </div>
+
+      <div class="row">
+        <h4>Danger zone</h4>
+        <a class="btn btn-warning col-xs-12" ng-click="logout()">Logout</a>
+      </div>
+    -->
+
+    <br><br><span style="float:right;font-size:10px;"><span app-version></span></span>
+
+    </div>
+  </article>
+
+  <div ng-include="'views/commons/footer.html'"></div>
+  <div ng-include="'views/user/modals.html'"></div>
+</div>

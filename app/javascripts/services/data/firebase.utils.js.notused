@@ -1,0 +1,140 @@
+
+// a simple wrapper on Firebase and AngularFire to simplify deps and keep things DRY
+angular.module('firebase.utils', ['firebase'])
+   .factory('fbutil', ['$window', 'FBURL', '$firebase', 'FB_AppUrl', function($window, FBURL, $firebase,FB_AppUrl) {
+      "use strict";
+
+      return {
+        syncObject: function(path, factoryConfig) {
+          return syncData.apply(null, arguments).$asObject();
+        },
+
+        syncArray: function(path, factoryConfig) {
+          return syncData.apply(null, arguments).$asArray();
+        },
+
+        goOffline:function() {
+
+            var ref = new $window.Firebase(FBURL);
+            return ref.goOffline; // All local Firebase instances are disconnected
+        },
+        goOnline:function() {
+
+            var ref = new $window.Firebase(FBURL);
+            return ref.goOnline; // All local Firebase instances are reconnected
+        },
+
+        ref: firebaseRef
+      };
+
+      function pathRef(args) {
+        for (var i = 0; i < args.length; i++) {
+          if (angular.isArray(args[i])) {
+            args[i] = pathRef(args[i]);
+          }
+          else if( typeof args[i] !== 'string' ) {
+            throw new Error('Argument '+i+' to firebaseRef is not a string: '+args[i]);
+          }
+        }
+        return args.join('/');
+      }
+
+      /**
+       * Example:
+       * <code>
+       *    function(firebaseRef) {
+         *       var ref = firebaseRef('path/to/data');
+         *    }
+       * </code>
+       *
+       * @function
+       * @name firebaseRef
+       * @param {String|Array...} path relative path to the root folder in Firebase instance
+       * @return a Firebase instance
+       */
+      function firebaseRef(path) {
+        //var ref = new $window.Firebase(FBURL+''+FB_AppUrl);
+
+        OfflineFirebase.restore();
+        var ref = new OfflineFirebase(FBURL+''+FB_AppUrl);
+        //f.on('value', function(snapshot) {
+        //    console.log(snapshot.val());
+        //}, undefined, undefined, true);
+
+        var args = Array.prototype.slice.call(arguments);
+        if( args.length ) {
+          //args = ''+FB_AppUrl+''+args;
+          ref = ref.child(pathRef(args));
+        }
+        return ref;
+      }
+
+      /**
+       * Create a $firebase reference with just a relative path. For example:
+       *
+       * <code>
+       * function(syncData) {
+         *    // a regular $firebase ref
+         *    $scope.widget = syncData('widgets/alpha');
+         *
+         *    // or automatic 3-way binding
+         *    syncData('widgets/alpha').$bind($scope, 'widget');
+         * }
+       * </code>
+       *
+       * Props is the second param passed into $firebase. It can also contain limit, startAt, endAt,
+       * and they will be applied to the ref before passing into $firebase
+       *
+       * @function
+       * @name syncData
+       * @param {String|Array...} path relative path to the root folder in Firebase instance
+       * @param {object} [props]
+       * @return a Firebase instance
+       */
+      function syncData(path, props) {
+        var ref = firebaseRef(path);
+        props = angular.extend({}, props);
+        angular.forEach(['limit', 'startAt', 'endAt'], function(k) {
+          if( props.hasOwnProperty(k) ) {
+            var v = props[k];
+            ref = ref[k].apply(ref, angular.isArray(v)? v : [v]);
+            delete props[k];
+          }
+        });
+        return $firebase(ref, props);
+      }
+
+      function _test_offline() {
+        OfflineFirebase.restore();
+        var f = new OfflineFirebase('https://example.firebaseio.com');
+        f.on('value', function(snapshot) {
+            console.log(snapshot.val());
+        }, undefined, undefined, true);
+      }
+
+      function _test_off() {
+        // since I can connect from multiple devices or browser tabs, we store each connection instance separately
+        // any time that connectionsRef's value is null (i.e. has no children) I am offline
+        var myConnectionsRef = new Firebase(FBURL+''+FB_AppUrl+'/connections');
+        // stores the timestamp of my last disconnect (the last time I was seen online)
+        var lastOnlineRef = new Firebase(FBURL+''+FB_AppUrl+'/lastOnline');
+        var connectedRef = new Firebase(FBURL+'/.info/connected');
+        connectedRef.on('value', function(snap) {
+          if (snap.val() === true) {
+            // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
+            // add this device to my connections list
+            // this value could contain info about the device or a timestamp too
+            var con = myConnectionsRef.push(true);
+            // when I disconnect, remove this device
+            con.onDisconnect().remove();
+            // when I disconnect, update the last time I was seen online
+            lastOnlineRef.onDisconnect().set(Firebase.ServerValue.TIMESTAMP);
+          }
+          else {
+
+          }
+        });
+
+      }
+
+   }]);

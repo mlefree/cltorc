@@ -1,0 +1,123 @@
+'use strict';
+
+var serviceModule = angular.module('srvData.firebase', ['firebase.utils']);
+
+serviceModule.factory('srvData', function ($rootScope,$q,$resource,$log, fbutil) {
+  return new SrvDataFirebase($rootScope,$q,$resource,$log, fbutil);
+});
+
+var SrvDataFirebase = (function() {
+
+  function Service($rootScope,$q,$resource,$log, fbutil) {
+
+      this.$rootScope = $rootScope;
+      this.$q = $q;
+      this.$log = $log;
+
+      this.fbutil = fbutil;
+
+      //this.initDone = false;
+
+      //this.Chore = null;
+      //this.User = null;
+      //this.Historic = null;
+
+      //this.initResources();
+
+  }
+
+  Service.prototype.messages = function (limitNb) {
+    return this.fbutil.syncArray('messages', {limit: limitNb ? limitNb : 10, endAt: null});
+  };
+
+  Service.prototype.chores = function (limitNb) {
+      return this.fbutil.syncArray('chores', {limit: limitNb ? limitNb : 10, endAt: null});
+  };
+
+  Service.prototype.choreBindedToScope = function (scope, id, choreScopeId) {
+      //return this.fbutil.syncObject('chores', {limit: limitNb ? limitNb : 10, endAt: null});
+
+
+      var chore = this.fbutil.syncObject(['chores', id]);
+      //chore.$bindTo(scope, choreScopeId);
+      return chore;
+
+  };
+
+
+  Service.prototype.goOffline = function () {
+      //return this.fbutil.syncObject('chores', {limit: limitNb ? limitNb : 10, endAt: null});
+
+
+      var ret = this.fbutil.goOffline();
+
+  };
+
+
+  Service.prototype.initAlreadyDone = function () {
+    return this.initDone;
+  };
+
+
+  Service.prototype.init = function () {
+
+      if (this.initAlreadyDone()) return;
+
+      this.initDone = true;
+  };
+
+
+  Service.prototype.initResources = function () {
+
+
+      if (this.initAlreadyDone()) return; // ???
+
+      this.Chore = this.DS.defineResource({
+        name: 'chore',
+        //endpoint: '/chore',
+        baseUrl: 'http://localhost:9000/',
+        relations: {
+          hasMany: {
+            historic: {
+              localField: 'historics',
+              foreignKey: 'choreId'
+            }
+          },
+        }
+      });
+      this.User = this.DS.defineResource({
+        name: 'user',
+        baseUrl: 'http://localhost:9000/',
+        relations: {
+          hasMany: {
+            historic: {
+              localField: 'historics',
+              foreignKey: 'userId'
+            }
+          },
+        }
+      });
+      this.Historic = this.DS.defineResource({
+        name: 'historic',
+        baseUrl: 'http://localhost:9000/',
+        relations: {
+          hasOne: {
+            chore: {
+              localField: 'chore',
+              foreignKey: 'choreId'
+            },
+            user: {
+              localField: 'user',
+              foreignKey: 'userId'
+            }
+          }
+        }
+      });
+
+
+
+  };
+
+
+  return Service;
+})();

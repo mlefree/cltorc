@@ -1,0 +1,68 @@
+<article class="container">
+
+  <div class="row">
+
+    <div class="jumbotron">
+      <img src="images/login_1.gif" style="width:100%"></img>
+      <h3>{{'LoginWelcome'|translate}}</h3>
+
+      <div class="row">
+        <form name="loginForm" ng-submit="loginSubmit(userLoginEmail,loginForm.$valid)" class="form-inline col-xs-12 col-sm-8 col-sm-offset-2" role="form" novalidate>
+          <div class="form-group col-xs-12"  ng-class="{ 'has-error' : loginForm.email.$invalid && !loginForm.email.$pristine }">
+            <div class="input-group col-xs-12">
+              <div class="input-group-addon input-lg">@</div>
+              <input class="form-control input-lg" name="email" type="email"
+                  ng-model="userLoginEmail" required placeholder="{{'Valid Email'|translate}}"
+                  pattern=".{1,}@[_a-z0-9A-Z]+(\.[a-z0-9A-Z]+)+"></input>
+            </div>
+          </div>
+
+
+          <div class="form-group col-xs-12">
+            <br>
+            <br>
+            <select ng-model="navigLang" class="form-control input-lg"
+            ng-options="style.title for style in navigLangs"
+            ng-change="navigationChangeLang(navigLang.code); navigationTraceClick('langChange_'+navigLang.title);"></select>
+          </div>
+
+          <!--<div class="form-group col-xs-12">
+            <button type="submit" ng-click="login(userLoginEmail)" class="btn btn-lg btn-default col-xs-12" translate>Sign in</button>
+          </div>
+          -->
+          <div class="form-group col-xs-12" style="margin-top:20px;">
+            <button type="submit" class="col-xs-12 btn btn-lg btn-primary"
+                ng-disabled="!userLoginEmail"
+                ng-click="navigationTraceClick('login_'+userLoginEmail)">{{'LoginSignin'|translate}}</button>
+          </div>
+
+          <br><br><span style="float:right;font-size:10px;"><span app-version></span></span>
+
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+</article>
+<!--
+<footer>
+  <nav class="navbar navbar-default navbar-fixed-bottom row" role="navigation" style="min-height: 0;">
+    <div class="col-xs-12">
+      <ul class="nav row">
+        <li class="col-xs-3" style="padding:0; text-align:center">&nbsp;</li>
+        <li class="col-xs-6" style="padding:0; text-align:center">
+          &nbsp;
+
+        </li>
+        <li class="col-xs-3" style="padding:0; text-align:center">
+          <a data-toggle="modal" data-target="#helpModal">
+            <i class="glyphicon glyphicon-question-sign"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</footer>
+-->

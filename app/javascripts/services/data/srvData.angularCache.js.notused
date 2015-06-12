@@ -1,0 +1,294 @@
+'use strict';
+
+angular.module('srvData.angular-cache', ['angular-data.DS', 'angular-data.DSCacheFactory'])
+
+.config(function (DSProvider,DSHttpAdapterProvider,DSCacheFactoryProvider,WS_URL_LOCAL,WS_URL_ONLINE) {
+
+
+  DSProvider.defaults.baseUrl = WS_URL_LOCAL; //TODO
+
+  DSHttpAdapterProvider.defaults.queryTransform = function (resourceName, params) {
+    if (params && params.userId) {
+    //params.user_id = params.userId;
+    //delete params.userId;
+    //  params = "/User/"+params.userId;
+    }
+    return params;
+  };
+
+  DSCacheFactoryProvider.setCacheDefaults({
+      maxAge: 20000,
+      //cacheFlushInterval: 20000, // This cache will clear itself every hour.
+        /*  deleteOnExpire: 'aggressive',
+          onExpire: function (key, value) {
+              $http.get(key).success(function (data) {
+                  profileCache.put(key, data);
+              });
+          }*/
+      storageMode: 'localStorage' // This cache will sync itself with `localStorage`.
+  });
+
+})
+
+.factory('srvData', function ($rootScope,$q,$resource,$log,DS,DSHttpAdapter,DSCacheFactory,WS_URL_LOCAL,WS_URL_ONLINE) {
+  return new SrvDataAngularcache($rootScope,$q,$resource,$log,DS,DSHttpAdapter,DSCacheFactory,WS_URL_LOCAL,WS_URL_ONLINE);
+});
+
+
+var SrvDataAngularcache = (function() {
+
+  function Service($rootScope,$q,$resource,$log,DS,DSHttpAdapter,DSCacheFactory,WS_URL_LOCAL,WS_URL_ONLINE) {
+
+      this.$rootScope = $rootScope;
+      this.$q = $q;
+      this.$log = $log;
+
+      this.WS_URL_LOCAL=WS_URL_LOCAL;
+      this.WS_URL_ONLINE=WS_URL_ONLINE;
+      this.currentWSUrl = this.WS_URL_LOCAL;
+
+      this.initDone = false;
+
+      this.DS = DS;
+      this.DSHttpAdapter = DSHttpAdapter;
+      this.DSCacheFactory = DSCacheFactory;
+
+      this.User = null;
+      this.Couple = null;
+      this.Chore = null;
+      this.Historic = null;
+      this.Connection  = null;
+
+      this.init();
+
+  }
+
+
+  Service.prototype.initAlreadyDone = function () {
+    return this.initDone;
+  };
+
+
+  Service._testConnection = function () {
+
+    this.DS.get('connection', 1, {loadFromServer:true}); // { author: 'John Anderson', id: 5 }
+    //this.WS_URL_LOCAL;
+    //this.WS_URL_ONLINE;
+    this.Connection.find();
+
+
+    return true;
+  };
+
+
+  Service.prototype.init = function () {
+
+      if (this.initAlreadyDone()) return;
+
+
+      var bok = this.initResources();
+      if (!bok) return;
+
+      //profileCache.put('myAngularApp.path','http://play-test-vanilla.herokuapp.com'); ???
+
+      //DSHttpAdapterProvider.defaults.queryTransform = function (resourceName, params) ...
+
+      // this.DSCacheFactoryProvider.setCacheDefaults({
+      //     maxAge: 20000,
+      //     //cacheFlushInterval: 20000, // This cache will clear itself every hour.
+      //       /*  deleteOnExpire: 'aggressive',
+      //         onExpire: function (key, value) {
+      //             $http.get(key).success(function (data) {
+      //                 profileCache.put(key, data);
+      //             });
+      //         }*/
+      //     storageMode: 'localStorage' // This cache will sync itself with `localStorage`.
+      // });
+
+      this.initDone = true;
+  };
+
+
+
+  var dataUserLoggedIn = null;
+  Service.prototype.setUserLoggedIn = function (user) {
+      this.dataUserLoggedIn = user;
+  };
+  Service.prototype.getUserLoggedIn = function () {
+      return this.dataUserLoggedIn;
+  };
+
+
+
+  Service.prototype.initResources = function () {
+
+
+      if (!this.dataUserLoggedIn || !this.dataUserLoggedIn.id) return false; // ???
+
+      this.Couple = this.DS.defineResource({
+        name: 'couple',
+        endpoint: '/couple/id',
+        baseUrl: this.currentWSUrl,
+        relations: {
+          belongsTo: {
+            user: {
+              parent : true,
+              localField: 'user',
+              foreignKey: 'userId'
+            }
+          },
+        }
+      });
+
+      this.Chore = this.DS.defineResource({
+        name: 'chore',
+        endpoint: '/chore/id',
+        baseUrl: this.currentWSUrl,
+        relations: {
+          hasMany: {
+            historic: {
+              localField: 'historics',
+              foreignKey: 'choreId'
+            }
+          },
+        }
+      });
+      this.User = this.DS.defineResource({
+        name: 'user',
+        endpoint: '/user/id',
+        baseUrl: this.currentWSUrl,
+        relations: {
+          hasMany: {
+            historic: {
+              localField: 'historics',
+              foreignKey: 'userId'
+            },
+            connection: {
+              localField: 'connections',
+              foreignKey: 'userId'
+            }
+          }
+        }
+      });
+      this.Historic = this.DS.defineResource({
+        name: 'historic',
+        baseUrl: this.currentWSUrl,
+        relations: {
+          hasOne: {
+            chore: {
+              localField: 'chore',
+              foreignKey: 'choreId'
+            },
+            user: {
+              localField: 'user',
+              foreignKey: 'userId'
+            }
+          }
+        }
+      });
+
+      this.Connection = this.DS.defineResource({
+        name: 'connection',
+        baseUrl: this.currentWSUrl,
+        relations: {
+          belongsTo: {
+            user: {
+              parent : true,
+              localField: 'user',
+              foreignKey: 'userId'
+            }
+          },
+        }
+      });
+
+
+      return true;
+
+  };
+
+
+  Service.prototype.createCouple = function (couple) {
+      this.DS.create('couple', couple,{useClass:true,cacheResponse:true,eagerInject:true})
+        .then(function (coupleCreated) {
+          //post; // { id: 65, author: 'Sally', title: 'Angular gotchas' }
+          alert("couple created"+coupleCreated);
+        });
+  };
+
+
+/*
+
+DS.create('post', { author: 'Sally', title: 'Angular gotchas' })
+  .then(function (post) {
+    post; // { id: 65, author: 'Sally', title: 'Angular gotchas' }
+  });
+
+DS.create('post', { author: 'Sally' })
+  .then(null, function (err) {
+    err; // 'Title is required'
+  });
+
+var document = DS.get('document', 5);
+
+document.title = 'How to cook in style';
+
+DS.save('document', 5).then(function (document) {
+  document; // A reference to the document that's been persisted via an adapter
+});
+
+
+
+  Service.prototype.bindAll = function ($resource, DS, DSCacheFactory) {
+
+    // Create a new cache called "profileCache"
+    var dataCache = DSCacheFactory('data');
+
+    var info = dataCache.info('urlPath');
+    if (info.isExpired) dataCache.put('urlPath','..');
+
+
+
+    chores: function ($route, $resource, $http, $cacheFactory, Chore,DS, DSCacheFactory) {
+
+      var profileCache = DSCacheFactory('profileCache');
+      var rootUrlPath = dataCache.get('urlPath');
+
+      var AllChores = $resource(''+rootUrlPath+'/chore');
+
+      // We can retrieve a collection from the server
+      var chores = AllChores.query();
+
+      return chores;
+
+    },
+    users: function ($route, $resource, $http, $cacheFactory, User,DS, DSCacheFactory) {
+      var profileCache = DSCacheFactory('profileCache');
+      var rootUrlPath = profileCache.get('myAngularApp.path');
+
+      var AllUsers = $resource(''+rootUrlPath+'/user');
+
+      // We can retrieve a collection from the server
+      var users = AllUsers.query();
+
+
+      return users;
+
+    },
+    historics: function ($route, $resource, $http, $cacheFactory, Historic,DS, DSCacheFactory) {
+      var profileCache = DSCacheFactory('profileCache');
+      var rootUrlPath = profileCache.get('myAngularApp.path');
+
+      var AllHistorics = $resource(''+rootUrlPath+'/historic');
+
+      var historics = AllHistorics.query();
+      return historics;
+
+    }
+*/
+
+
+
+
+
+  return Service;
+})();

@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"X-Generator: Poedit 1.8.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en\n"
+
+#: app/views/user/userAll.html:29
+msgid "<i class=\"glyphicon glyphicon-cog\"></i> Les amoureux."
+msgstr "<i class=\"glyphicon glyphicon-cog\"></i> Ze amoureux."
+
+#: app/views/login/loginIn.html:22
+msgid "Choose your language"
+msgstr "Choose your language ?"
+
+#: app/views/config/configItems.html:45
+msgid "HEADLINE"
+msgstr ""
+
+#: app/views/config/configItems.html:46
+msgid "INTRO_TEXT"
+msgstr ""
+
+#: app/views/user/userAll.html:160
+msgid "Language"
+msgstr "Language"
+
+#: app/views/login/loginIn.html:34
+msgid "LoginSignin"
+msgstr "Signin"
+
+#: app/views/login/loginIn.html:7
+msgid "LoginWelcome"
+msgstr "Welcome to a housework fair share"
+
+#: app/views/login/loginIn.html:15
+msgid "Valid Email"
+msgstr "Valid email"

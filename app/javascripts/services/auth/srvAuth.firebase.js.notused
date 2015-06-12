@@ -1,0 +1,162 @@
+
+var srvData = (function() {
+  'use strict';
+
+
+
+  function Service($rootScope,$q,$resource,$log,DS,DSHttpAdapter,DSCacheFactory) {
+
+      this.$rootScope = $rootScope;
+      this.$q = $q;
+      this.$log = $log;
+
+      this.initDone = false;
+
+      this.DS = DS;
+      this.DSHttpAdapter = DSHttpAdapter;
+      this.DSCacheFactory = DSCacheFactory;
+      this.Chore = null;
+      this.User = null;
+      this.Historic = null;
+
+      this.initResources();
+
+  }
+
+
+  Service.prototype.initAlreadyDone = function () {
+    return this.initDone;
+  };
+
+
+  Service.prototype.init = function () {
+
+      if (this.initAlreadyDone()) return;
+
+
+      //profileCache.put('myAngularApp.path','http://play-test-vanilla.herokuapp.com'); ???
+
+      //DSHttpAdapterProvider.defaults.queryTransform = function (resourceName, params) ...
+
+      // this.DSCacheFactoryProvider.setCacheDefaults({
+      //     maxAge: 20000,
+      //     //cacheFlushInterval: 20000, // This cache will clear itself every hour.
+      //       /*  deleteOnExpire: 'aggressive',
+      //         onExpire: function (key, value) {
+      //             $http.get(key).success(function (data) {
+      //                 profileCache.put(key, data);
+      //             });
+      //         }*/
+      //     storageMode: 'localStorage' // This cache will sync itself with `localStorage`.
+      // });
+
+      this.initDone = true;
+  };
+
+
+  Service.prototype.initResources = function () {
+
+
+      if (this.initAlreadyDone()) return; // ???
+
+      this.Chore = this.DS.defineResource({
+        name: 'chore',
+        //endpoint: '/chore',
+        baseUrl: 'http://localhost:9000/',
+        relations: {
+          hasMany: {
+            historic: {
+              localField: 'historics',
+              foreignKey: 'choreId'
+            }
+          },
+        }
+      });
+      this.User = this.DS.defineResource({
+        name: 'user',
+        baseUrl: 'http://localhost:9000/',
+        relations: {
+          hasMany: {
+            historic: {
+              localField: 'historics',
+              foreignKey: 'userId'
+            }
+          },
+        }
+      });
+      this.Historic = this.DS.defineResource({
+        name: 'historic',
+        baseUrl: 'http://localhost:9000/',
+        relations: {
+          hasOne: {
+            chore: {
+              localField: 'chore',
+              foreignKey: 'choreId'
+            },
+            user: {
+              localField: 'user',
+              foreignKey: 'userId'
+            }
+          }
+        }
+      });
+
+
+
+  };
+
+/*
+  Service.prototype.bindAll = function ($resource, DS, DSCacheFactory) {
+
+    // Create a new cache called "profileCache"
+    var dataCache = DSCacheFactory('data');
+
+    var info = dataCache.info('urlPath');
+    if (info.isExpired) dataCache.put('urlPath','..');
+
+
+
+    chores: function ($route, $resource, $http, $cacheFactory, Chore,DS, DSCacheFactory) {
+
+      var profileCache = DSCacheFactory('profileCache');
+      var rootUrlPath = dataCache.get('urlPath');
+
+      var AllChores = $resource(''+rootUrlPath+'/chore');
+
+      // We can retrieve a collection from the server
+      var chores = AllChores.query();
+
+      return chores;
+
+    },
+    users: function ($route, $resource, $http, $cacheFactory, User,DS, DSCacheFactory) {
+      var profileCache = DSCacheFactory('profileCache');
+      var rootUrlPath = profileCache.get('myAngularApp.path');
+
+      var AllUsers = $resource(''+rootUrlPath+'/user');
+
+      // We can retrieve a collection from the server
+      var users = AllUsers.query();
+
+
+      return users;
+
+    },
+    historics: function ($route, $resource, $http, $cacheFactory, Historic,DS, DSCacheFactory) {
+      var profileCache = DSCacheFactory('profileCache');
+      var rootUrlPath = profileCache.get('myAngularApp.path');
+
+      var AllHistorics = $resource(''+rootUrlPath+'/historic');
+
+      var historics = AllHistorics.query();
+      return historics;
+
+    }
+*/
+
+
+
+
+
+  return Service;
+})();

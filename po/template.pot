@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+
+#: app/views/user/userAll.html:29
+msgid "<i class=\"glyphicon glyphicon-cog\"></i> Les amoureux."
+msgstr ""
+
+#: app/views/login/loginIn.html:22
+msgid "Choose your language"
+msgstr ""
+
+#: app/views/config/configItems.html:45
+msgid "HEADLINE"
+msgstr ""
+
+#: app/views/config/configItems.html:46
+msgid "INTRO_TEXT"
+msgstr ""
+
+#: app/views/user/userAll.html:160
+msgid "Language"
+msgstr ""
+
+#: app/views/login/loginIn.html:34
+msgid "LoginSignin"
+msgstr ""
+
+#: app/views/login/loginIn.html:7
+msgid "LoginWelcome"
+msgstr ""
+
+#: app/views/login/loginIn.html:15
+msgid "Valid Email"
+msgstr ""

@@ -1,0 +1,4 @@
+angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
+    gettextCatalog.setStrings('en', {"<i class=\"glyphicon glyphicon-cog\"></i> Les amoureux.":"<i class=\"glyphicon glyphicon-cog\"></i> Ze amoureux.","Choose your language":"Choose your language ?","Language":"Language","LoginSignin":"Signin","LoginWelcome":"Welcome to a housework fair share","Valid Email":"Valid email"});
+    gettextCatalog.setStrings('fr', {"<i class=\"glyphicon glyphicon-cog\"></i> Les amoureux.":"<i class=\"glyphicon glyphicon-cog\"></i> Les Zamoureux.","Choose your language":"Choisissez votre langue","HEADLINE":"FR Headline ????","INTRO_TEXT":"INTRO FR ???","Language":"Langage","LoginSignin":"Entrez","LoginWelcome":"Vers un partage équitable des tâches","Valid Email":"Un email valide"});
+}]);

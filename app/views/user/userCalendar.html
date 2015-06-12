@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<!-- spinner -->
+<div ng-if="!userInitSpinnerStopped"
+mle-animateshow="!userInitSpinnerStopped"
+after-show="afterNavigationInitSpinnerShow()"
+after-hide="afterNavigationInitSpinnerHide()">
+<div ng-include="'views/commons/computeChore.html'"></div>
+</div>
+<!-- spinner -->
+
+<div ng-include="'views/commons/header.html'"></div>
+
+<div ng-if="userInitSpinnerStopped">
+
+  <article class="container">
+
+    <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+
+      <div class="row" ng-show="userErrMessage">
+        <div class="alert alert-warning alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <strong>Warning!</strong> {{userErrMessage}}
+        </div>
+      </div>
+
+      <div class="page-header" style="margin-top:0">
+        <h4><i class="glyphicon glyphicon-cog"></i> It's time to carry on.</h4>
+      </div>
+
+      <!--
+      <div class="row" ng-hide="appFirstInitDone">
+        <div class="alert alert-success alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h3>Welcome. Your email is linked to your couple chores.</h3>
+        </div>
+      </div>
+      -->
+
+      <div class="row">
+        <div class="panel-group" id="users" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default">
+
+            <!-- user A -->
+            <div class="panel-heading btn"
+              style="border:0;width:100%;text-align:left;"
+              role="tab"
+              id="userAH"
+              data-toggle="collapse" data-parent="#users" data-target="#userA" aria-expanded="false">
+              <h4 class="panel-title">
+                <a class="collapsed">
+                  {{userA[userCols.firstName] | cut:true:15:' ...'}}
+                </a>
+              </h4>
+            </div>
+            <div id="userA" class="panel-collapse collapse" role="tabpanel">
+              <div class="panel-body">
+
+                <form>
+
+                  <div class="form-group">
+                    <h4>Time (mn) dedicated per day</h4>
+                    <!--
+
+                    <div ng-show="userAHasSameTimeEachDay">
+                      <mle-input-integer min="0" ng-model="userA[userCols.timeInMnPerMond]" ng-change="userSave(userA)"></mle-input-integer>
+                      <input type="number" pattern="\d*" class="col-xs-8" ng-model="userA[userCols.timeInMnPerMond]" ng-change="userSave(userA)" />
+                      <input type="checkbox" checked ng-click="setUserASameTimeEachDay()" class="col-xs-4"/>
+                    -->
+
+                      <label class="col-xs-12 col-sm-6">Monday</label>
+                      <div class"col-xs-12 col-sm-6">
+                        <mle-input-integer min="0" ng-model="userA[userCols.timeInMnPerMond]" ng-change="userSave(userA)"></mle-input-integer>
+                      </div>
+                      <button class="btn btn-default col-xs-12" style="margin-top:20px;margin-bottom:20px;"
+                          ng-click="setUserASameTimeEachDay()">Apply for all days</button>
+
+                      <label class="col-xs-12 col-sm-6">Tuesday</label>
+                      <div class"col-xs-12 col-sm-6">
+                        <mle-input-integer min="0" ng-model="userA[userCols.timeInMnPerTues]" ng-change="userSave(userA)"></mle-input-integer>
+                      </div>
+                      <label class="col-xs-12 col-sm-6">Wednesday</label>
+                      <div class"col-xs-12 col-sm-6">
+                        <mle-input-integer min="0" ng-model="userA[userCols.timeInMnPerWedn]" ng-change="userSave(userA)"></mle-input-integer>
+                      </div>
+                      <label class="col-xs-12 col-sm-6">Thursday</label>
+                      <div class"col-xs-12 col-sm-6">
+                        <mle-input-integer min="0" ng-model="userA[userCols.timeInMnPerThur]" ng-change="userSave(userA)"></mle-input-integer>
+                      </div>
+                      <label class="col-xs-12 col-sm-6">Friday</label>
+                      <div class"col-xs-12 col-sm-6">
+                        <mle-input-integer min="0" ng-model="userA[userCols.timeInMnPerFrid]" ng-change="userSave(userA)"></mle-input-integer>
+                      </div>
+                      <label class="col-xs-12 col-sm-6">Saturday</label>
+                      <div class"col-xs-12 col-sm-6">
+                        <mle-input-integer min="0" ng-model="userA[userCols.timeInMnPerSatu]" ng-change="userSave(userA)"></mle-input-integer>
+                      </div>
+                      <label class="col-xs-12 col-sm-6">Sunday</label>
+                      <div class"col-xs-12 col-sm-6">
+                        <mle-input-integer min="0" ng-model="userA[userCols.timeInMnPerSund]" ng-change="userSave(userA)"></mle-input-integer>
+                      </div>
+
+
+                  </div>
+
+                  <div class="form-group">
+                    <label for="timeInMnPerWeekTodo">Availability per week : {{userA[userCols.timeInMnPerWeekTodo]}} minutes</label>
+                  <!--  <input type="range" class="form-control" id="timeInMnPerWeekTodo"
+                    ng-model="userA[userCols.timeInMnPerWeekTodo]" ng-change="userSave(userA)"
+                    min="10" max="2000" step="10"/>
+                    <br>-->
+                    <p class="small hero-color-main">
+                      <i ng-show="userA[userCols.timeInMnPerWeekTodo] < 100">Chores are not your priority.</i>
+                      <i ng-show="100 <= userA[userCols.timeInMnPerWeekTodo] && userA[userCols.timeInMnPerWeekTodo] < 200">You are busy but intrested in Chores</i>
+                      <i ng-show="200 <= userA[userCols.timeInMnPerWeekTodo] && userA[userCols.timeInMnPerWeekTodo] < 1000">You manage Chores</i>
+                      <i ng-show="1000 <= userA[userCols.timeInMnPerWeekTodo]">You are a professional !</i>
+                    </p>
+                  </div>
+
+
+                </form>
+
+
+
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+
+            <!-- user B -->
+            <div class="panel-heading btn"
+              style="border:0;width:100%;text-align:left;"
+              role="tab"
+              id="userBH"
+              data-toggle="collapse" data-parent="#users" data-target="#userB" aria-expanded="false">
+              <h4 class="panel-title">
+                <a class="collapsed">
+                  {{userB[userCols.firstName] | cut:true:15:' ...'}}
+                </a>
+              </h4>
+            </div>
+            <div id="userB" class="panel-collapse collapse" role="tabpanel">
+              <div class="panel-body">
+                <form novalidate>
+
+                  <div class="form-group">
+                    <h4>Time (mn) dedicated per day</h4>
+                    <!--<div ng-show="userBHasSameTimeEachDay">
+                      <input type="number" pattern="\d*" class="col-xs-8" ng-model="userB[userCols.timeInMnPerMond]" ng-change="userSave(userB)" />
+                      <input type="checkbox" checked ng-click="setUserBSameTimeEachDay()" class="col-xs-4"/>
+                    </div>
+                  -->
+
+                    <label class="col-xs-12 col-sm-6">Monday</label>
+                    <div class"col-xs-12 col-sm-6">
+                      <mle-input-integer min="0" ng-model="userB[userCols.timeInMnPerMond]" ng-change="userSave(userB)"></mle-input-integer>
+                    </div>
+                    <button class="btn btn-default col-xs-12" style="margin-top:20px;margin-bottom:20px;"
+                    ng-click="setUserBSameTimeEachDay()">Apply for all days</button>
+
+                    <label class="col-xs-12 col-sm-6">Tuesday</label>
+                    <div class"col-xs-12 col-sm-6">
+                      <mle-input-integer min="0" ng-model="userB[userCols.timeInMnPerTues]" ng-change="userSave(userB)"></mle-input-integer>
+                    </div>
+                    <label class="col-xs-12 col-sm-6">Wednesday</label>
+                    <div class"col-xs-12 col-sm-6">
+                      <mle-input-integer min="0" ng-model="userB[userCols.timeInMnPerWedn]" ng-change="userSave(userB)"></mle-input-integer>
+                    </div>
+                    <label class="col-xs-12 col-sm-6">Thursday</label>
+                    <div class"col-xs-12 col-sm-6">
+                      <mle-input-integer min="0" ng-model="userB[userCols.timeInMnPerThur]" ng-change="userSave(userB)"></mle-input-integer>
+                    </div>
+                    <label class="col-xs-12 col-sm-6">Friday</label>
+                    <div class"col-xs-12 col-sm-6">
+                      <mle-input-integer min="0" ng-model="userB[userCols.timeInMnPerFrid]" ng-change="userSave(userB)"></mle-input-integer>
+                    </div>
+                    <label class="col-xs-12 col-sm-6">Saturday</label>
+                    <div class"col-xs-12 col-sm-6">
+                      <mle-input-integer min="0" ng-model="userB[userCols.timeInMnPerSatu]" ng-change="userSave(userB)"></mle-input-integer>
+                    </div>
+                    <label class="col-xs-12 col-sm-6">Sunday</label>
+                    <div class"col-xs-12 col-sm-6">
+                      <mle-input-integer min="0" ng-model="userB[userCols.timeInMnPerSund]" ng-change="userSave(userB)"></mle-input-integer>
+                    </div>
+
+
+                  </div>
+
+                  <div class="form-group">
+                    <label for="timeInMnPerWeekTodo">Availability per week : {{userB[userCols.timeInMnPerWeekTodo]}} minutes</label>
+                    <!--<input type="range" class="form-control" id="timeInMnPerWeekTodo"
+                    ng-model="userB[userCols.timeInMnPerWeekTodo]" ng-change="userSave(userB)"
+                    min="10" max="2000" step="10"/>
+
+                    <br>-->
+                    <p class="small hero-color-main">
+                      <i ng-show="userB[userCols.timeInMnPerWeekTodo] < 100">Chores are not your priority.</i>
+                      <i ng-show="100 <= userB[userCols.timeInMnPerWeekTodo] && userB[userCols.timeInMnPerWeekTodo] < 200">You are busy but intrested in Chores</i>
+                      <i ng-show="200 <= userB[userCols.timeInMnPerWeekTodo] && userB[userCols.timeInMnPerWeekTodo] < 1000">You manage Chores</i>
+                      <i ng-show="1000 <= userB[userCols.timeInMnPerWeekTodo]">You are a professional !</i>
+                    </p>
+                  </div>
+
+                </form>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+<!-- //TODO !!
+
+      <div class="row">
+        <label for="userHasRead">Are you agree ?</label>
+        <input type="checkbox" class="form-control" id="userHasRead" >test</input>
+      </div>
+
+      <div class="row">
+        <h4>Danger zone</h4>
+        <a class="btn btn-warning col-xs-12" ng-click="logout()">Logout</a>
+      </div>
+    -->
+
+    <br><br><span style="float:right;font-size:10px;">v<span app-version></span></span>
+
+    </div>
+  </article>
+
+  <div ng-include="'views/commons/footer.html'"></div>
+  <div ng-include="'views/user/modals.html'"></div>
+</div>
