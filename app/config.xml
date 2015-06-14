@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0"
     xmlns:gap="http://phonegap.com/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android"
-    id="com.apps4pro.cltorbeta"
+    id="com.apps4pro.betacltor"
     version = '15.6.2'>
 
     <name>Cleanator+</name>
-    <description>Cleanator MayGa</description>
+    <description>Cleanator +</description>
     <author email="contact@apps4pro.com" href="https://apps4pro.com">Apps4pro Team</author>
 
     <preference name="phonegap-version" value="3.7.0" />
