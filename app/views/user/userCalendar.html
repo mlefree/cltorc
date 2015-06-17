@@ -26,7 +26,37 @@ after-hide="afterNavigationInitSpinnerHide()">
       </div>
 
       <div class="page-header" style="margin-top:0">
-        <h4><i class="glyphicon glyphicon-cog"></i> It's time to carry on.</h4>
+          <h4><i class="glyphicon glyphicon-cog"></i><span translate>It's time to carry on.</span></h4>
+
+          <i>
+            both are available : {{userA[userCols.timeInMnPerWeekTodo] + userB[userCols.timeInMnPerWeekTodo]}}
+            nb of tasks : {{userAllTasksNb}}
+            time for tasks per week : {{userAllTasksTime}}
+            nb of required tasks : {{userRequiredTasksNb}}
+            time for required tasks per week : {{userRequiredTasksTime}}
+          </i>
+
+          <div class="button-group">
+            <button type="button" class="btn" disabled>{{userA[userCols.timeInMnPerWeekTodo] + userB[userCols.timeInMnPerWeekTodo]}} mn</button>
+            <button type="button" class="btn btn-danger">{{userRequiredTasksTime}} mn</button>
+            <button type="button" class="btn">{{userAllTasksTime}} mn</button>
+          </div>
+
+          <h5 ng-show="(userA[userCols.timeInMnPerWeekTodo] + userB[userCols.timeInMnPerWeekTodo]) > userRequiredTasksTime" class="btn-info" translate>
+            OK - You will manage your week
+          </h5>
+          <h5 ng-show="(userA[userCols.timeInMnPerWeekTodo] + userB[userCols.timeInMnPerWeekTodo]) <= userRequiredTasksTime" class="btn-danger" translate>
+            KO - Houston ?!<br>
+            2 solutions : Reduce your "required" chores OR improve the time dedicated per week.
+          </h5>
+          <h5 ng-show="(userA[userCols.timeInMnPerWeekTodo] + userB[userCols.timeInMnPerWeekTodo]) > (userAllTasksTime / 2)" class="btn-info" translate>
+            everything's fine
+          </h5>
+          <h5 ng-show="(userA[userCols.timeInMnPerWeekTodo] + userB[userCols.timeInMnPerWeekTodo]) <= (userAllTasksTime / 2)" class="btn-warning" translate>
+            lot's of things to do ! And it's great but again, think about improving the time dedicated per week.
+          </h5>
+
+
       </div>
 
       <!--

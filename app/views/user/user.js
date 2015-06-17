@@ -21,6 +21,10 @@ angular.module('myAngularApp.views.user', []).config(function($routeProvider) {
   $scope.userId = $routeParams.userId;
   $scope.userToConfig = {};
   $scope.userErrMessage = "";
+  $scope.userRequiredTasksNb = 0;
+  $scope.userRequiredTasksTime = 0;
+  $scope.userAllTasksNb = 0;
+  $scope.userAllTasksTime = 0;
 
   $scope.userInitSpinnerStopped = false;
   $scope.afterNavigationInitSpinnerShow = function() {
@@ -30,8 +34,16 @@ angular.module('myAngularApp.views.user', []).config(function($routeProvider) {
     $timeout(function() {
       if (!$scope.isAppLogin()) return;
 
-      if ($scope.userId) $scope.userBindById();
-      else $scope.userDataSync();
+      if ($scope.userId) {
+        $scope.userBindById().then(function(){
+          $scope.userUpdateIndicleanator();
+        });
+      }
+      else {
+        $scope.userDataSync().then(function(){
+          $scope.userUpdateIndicleanator();
+        });
+      }
 
     },1000);
   };
@@ -48,14 +60,20 @@ angular.module('myAngularApp.views.user', []).config(function($routeProvider) {
 
   // Synchronise DB
   $scope.userDataSync = function() {
+    var self = this;
+    var deferred = $q.defer();
     srvData.sync()
     .then(function(msg){
-      $scope.choreDataBind();
+      $scope.userChoreDataBind();
+      deferred.resolve(null);
     })
     .catch(function(msg){
       $scope.userErrMessage = msg.statusText ? msg.statusText : 'Error in the first bind : '+msg;
-      $scope.choreDataBind();
+      $scope.userChoreDataBind();
+      deferred.resolve(null);
     });
+
+    return deferred.promise;
   };
 
   $scope.userStopSpinnerWithMessage = function(msg) {
@@ -64,7 +82,9 @@ angular.module('myAngularApp.views.user', []).config(function($routeProvider) {
   };
 
   // Recherche données en BdD :
-  $scope.choreDataBind = function() {
+  $scope.userChoreDataBind = function() {
+    var self = this;
+    var deferred = $q.defer();
     var lang = srvConfig.getConfigLang();
     srvData.isEmpty()
     .then(function(isE){
@@ -83,12 +103,13 @@ angular.module('myAngularApp.views.user', []).config(function($routeProvider) {
                   //if ($scope.userId) $scope.userBindById();
                   $scope.userInitSpinnerStopped = true;
                   $scope.userErrMessage = "";//back to normality
-                }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting chores data');});
-              }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting categories data');});
-            }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting couple data');});
-          }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting user data.');});
+                  deferred.resolve(null);
+                }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting chores data');deferred.resolve(null);});
+              }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting categories data');deferred.resolve(null);});
+            }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting couple data');deferred.resolve(null);});
+          }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting user data.');deferred.resolve(null);});
         })
-        .catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting data.');});
+        .catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting data.');deferred.resolve(null);});
       } else {
         $scope.bindUserLoggedIn().then(function(user) {
           $scope.bindCouple().then(function(couple) {
@@ -100,14 +121,16 @@ angular.module('myAngularApp.views.user', []).config(function($routeProvider) {
                 //if ($scope.userId) $scope.userBindById();
                 $scope.userInitSpinnerStopped = true;
                 $scope.userErrMessage = "";//back to normality
-              }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting chores data');});
-            }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting categories data');});
-          }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting data ..');});
-        }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting data .');});
+                deferred.resolve(null);
+              }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting chores data');deferred.resolve(null);});
+            }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting categories data');deferred.resolve(null);});
+          }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting data ..');deferred.resolve(null);});
+        }).catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting data .');deferred.resolve(null);});
       }
     })
-    .catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting data');});
+    .catch(function(err){$scope.userStopSpinnerWithMessage(err ? err : 'pb with getting data');deferred.resolve(null);});
 
+    return deferred.promise;
   };
 
 
@@ -225,6 +248,33 @@ angular.module('myAngularApp.views.user', []).config(function($routeProvider) {
     $scope.userSave($scope.userA);
     $scope.userSave($scope.userB);
   };
+
+  $scope.userUpdateIndicleanator = function() {
+    $scope.userRequiredTasksNb = 0;
+    $scope.userRequiredTasksTime = 0;
+    $scope.userAllTasksNb = 0;
+    $scope.userAllTasksTime = 0;
+    if (!$scope.chores) return;
+
+    // compute indicator for one week
+
+    for (var i= 0; i < $scope.chores.length; i++) {
+      var chore = $scope.chores[i];
+      var nbPerWeek = Math.round(7 / chore[$scope.choreCols.frequencyDays]);
+      nbPerWeek = (nbPerWeek == 0) ? 1 : nbPerWeek;
+      var timePerWeek = Math.round( nbPerWeek * chore[$scope.choreCols.timeInMn]);
+      $scope.userAllTasksNb += nbPerWeek;
+      $scope.userAllTasksTime += timePerWeek;
+      if (chore[$scope.choreCols.priority] < 3 ) {
+          //priority : Required estimation
+          $scope.userRequiredTasksNb += nbPerWeek;
+          $scope.userRequiredTasksTime += timePerWeek;
+      }
+    }
+
+  };
+
+
 
 
   //------------------
