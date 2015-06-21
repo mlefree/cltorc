@@ -276,13 +276,8 @@ function ctrlNavigation($scope,$log,$route,$routeParams,$location,$anchorScroll,
   };
 
   $scope.navigationTraceClick = function(event) {
-
-    //ga('send','pageview','/test-'+event);
-
-    //_gaq('send', 'pageview', {'page': '/itMLEWorks'+event});
-    srvAnalytics.add('EventMLE', 'MLE-'+event);
-
-    //return false;
+    // remove from the critical path of loading
+    $timeout(srvAnalytics.add('EventMLE', 'MLE-'+event),1100);
   };
 
   $scope.navigLangs = [

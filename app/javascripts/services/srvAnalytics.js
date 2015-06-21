@@ -173,7 +173,7 @@ var SrvAnalytics = (function() {
 
 	Service.prototype.run = function() {
 
-      if (!this.bEnabled) return;
+      if (!this.bEnabled || !this.initDone) return;
       //a4p.InternalLog.log('Analytics', 'run - pushing ' + this.mAnalyticsArray.length + ' elements');
       //if (this.uuid == '') {
       //    this.uuid = (window.device) ? window.device.uuid : window.location.hostname;
