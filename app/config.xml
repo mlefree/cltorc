@@ -29,19 +29,19 @@
     <!--    unofficials - test ?
     http://docs.phonegap.com/en/edge/guide_platforms_ios_config.md.html#iOS%20Configuration)
     http://docs.phonegap.com/en/edge/guide_platforms_android_config.md.html#Android%20Configuration
-    -->
-    <preference name="webviewbounce" value="false" /> <!-- ?? -->
-    <preference name="DisallowOverscroll" value="true" /> <!-- ?? -->
-    <preference name="stay-in-webview" value="true" /> <!-- ?? -->
+
+    <preference name="webviewbounce" value="false" />  ?
+    <preference name="DisallowOverscroll" value="true" />  ?
+    <preference name="stay-in-webview" value="true" />  ?
     <preference name="show-splash-screen-spinner" value="true" />
     <preference name="auto-hide-splash-screen" value="true" />
-    <preference name="EnableViewportScale" value="true" /> <!-- ?? -->
+    <preference name="EnableViewportScale" value="true" />  ?
     <preference name="MediaPlaybackRequiresUserAction" value="false" />
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="BackupWebStorage" value="cloud" />
     <preference name="TopActivityIndicator" value="gray" />
-    <preference name="KeyboardDisplayRequiresUserAction" value="true" /> <!-- ?? -->
-    <preference name="HideKeyboardFormAccessoryBar" value="true" /> <!-- ?? -->
+    <preference name="KeyboardDisplayRequiresUserAction" value="true" />  ?
+    <preference name="HideKeyboardFormAccessoryBar" value="true" />  ?
     <preference name="SuppressesIncrementalRendering" value="false" />
     <preference name="SplashScreenDelay" value="5000" />
     <preference name="ErrorUrl" value=""/>
@@ -49,9 +49,9 @@
     <preference name="KeepRunning" value="false"/>
     <preference name="LoadingDialog" value=","/>
     <preference name="LoadUrlTimeoutValue" value="50000" />
-    <preference name="disable-cursor" value="false" /> <!-- ?? -->
-    <preference name="KeyBoardShrinksView" value="false" /> <!-- ?? -->
-
+    <preference name="disable-cursor" value="false" />  ?
+    <preference name="KeyBoardShrinksView" value="false" />  ?
+    -->
 
 
     <!-- iOS allows registration of custom URL Schemes. <gap:url-scheme> -->
