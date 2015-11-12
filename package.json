@@ -48,7 +48,7 @@
   "scripts": {
     "postinstall": "bower install",
     "prestart": "npm install",
-    "start": "http-server -a localhost -p 8069",
+    "start": "http-server -a 0.0.0.0 -p 8069",
     "xstart": "pouchdb-server -m -o localhost -p 8068",
     "pretest": "npm install",
     "test": "karma start test/karma.conf.js --single-run",

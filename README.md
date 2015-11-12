@@ -16,3 +16,12 @@ npm run translate:in
 
 
 npm run version:all
+
+```http://mlefree.koding.io:8069/app/#/chore
+
+
+```http://poupouch.herokuapp.com/_utils/
+
+```bash
+$ curl -X PUT http://poupouch.herokuapp.com/cltor
+```
