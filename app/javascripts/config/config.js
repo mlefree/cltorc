@@ -4,7 +4,7 @@ angular.module('myAngularApp.config', [])
 
 // from package.json
 .constant("appName","clo")
-.constant("appVersion","15.6.5")
+.constant("appVersion","15.6.6")
 .constant("appServerUrlLocal","http://localhost:9000/todoc")
 .constant("appServerUrlRemote", "https://xxxx.com/todoc")
 

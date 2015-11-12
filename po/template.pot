@@ -26,12 +26,26 @@ msgstr ""
 msgid "INTRO_TEXT"
 msgstr ""
 
+#: app/views/user/userCalendar.html:29
+msgid "It's time to carry on."
+msgstr ""
+
+#: app/views/user/userCalendar.html:48
+msgid ""
+"KO - Houston ?!<br>\n"
+"            2 solutions : Reduce your \"required\" chores OR improve the time dedicated per week."
+msgstr ""
+
 #: app/views/login/loginIn.html:36
 msgid "LoginSignin"
 msgstr ""
 
 #: app/views/login/loginIn.html:7
 msgid "LoginWelcome"
+msgstr ""
+
+#: app/views/user/userCalendar.html:45
+msgid "OK - You will manage your week"
 msgstr ""
 
 #: app/views/dashboard/dashboardAll.html:23
@@ -48,4 +62,12 @@ msgstr ""
 
 #: app/views/commons/footer.html:46
 msgid "When ?"
+msgstr ""
+
+#: app/views/user/userCalendar.html:52
+msgid "everything's fine"
+msgstr ""
+
+#: app/views/user/userCalendar.html:55
+msgid "lot's of things to do ! And it's great but again, think about improving the time dedicated per week."
 msgstr ""
