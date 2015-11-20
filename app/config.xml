@@ -8,9 +8,9 @@
     <description>Cleanator ++</description>
     <author email="contact@apps4pro.com" href="https://apps4pro.com">Apps4pro Team</author>
 
-    <preference name='phonegap-version' value='cli-5.1.1' />
+    <platform name="ios|android" />
+    <preference name="phonegap-version" value="cli-5.2.0" />
     <preference name="loglevel" value="VERBOSE" />
-
 
     <!--    officials
     http://docs.build.phonegap.com/en_US/3.3.0/configuring_preferences.md.html#Preferences
@@ -73,11 +73,15 @@
     <gap:plugin name="org.apache.cordova.device-motion" />
     <gap:plugin name="org.apache.cordova.battery-status" />
     <gap:plugin name="org.apache.cordova.network-information" />-->
-    <gap:plugin name="org.apache.cordova.device" />
+   
+    <!--<gap:plugin name="org.apache.cordova.device" />
+    <gap:plugin name="com.phonegap.plugin.statusbar" />-->
+    <gap:plugin name="cordova-plugin-device" source="npm" />
+    <gap:plugin name="cordova-plugin-statusbar" source="npm" />
+    
+    <gap:plugin name="com.adobe.plugins.gaplugin" />
 
-    <!--
-    --><gap:plugin name="com.adobe.plugins.gaplugin" />
-    <gap:plugin name="com.phonegap.plugin.statusbar" />
+    
 
     <!-- iOS Status Bar
     <gap:plugin name="org.apache.cordova.statusbar" />
