@@ -826,7 +826,8 @@ var SrvDataPouchDB = (function() {
     }
 
 
-    self.db.sync('http://poupouch.herokuapp.com/cltor',{
+    self.db.sync('http://51.255.34.37:8080/cltor',{
+    //self.db.sync('http://poupouch.herokuapp.com/cltor',{
     //self.db.sync('https://apps4pro.iriscouch.com/cltor',{
       //live: true,
       //retry: true,
