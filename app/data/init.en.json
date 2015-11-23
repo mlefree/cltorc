@@ -24,43 +24,43 @@
       "group" : "choreCategory",
       "categoryName": "01_Chambre",
       "description": "Bedroom",
-      "thumb": "images/categories/chambre1.png"
+      "thumb": "images/categories/bedroom.png"
     },
     {
       "group" : "choreCategory",
       "categoryName": "02_Cuisine",
       "description": "Kitchen",
-      "thumb": "images/categories/cuisine.png"
+      "thumb": "images/categories/kitchen.png"
     },
     {
       "group" : "choreCategory",
       "categoryName": "03_Salon",
       "description": "Living room",
-      "thumb": "images/categories/salon.png"
+      "thumb": "images/categories/livingroom.png"
     },
     {
       "group" : "choreCategory",
       "categoryName": "04_Famille",
       "description": "Family",
-      "thumb": "images/categories/divers.png"
+      "thumb": "images/categories/familly.png"
     },
     {
       "group" : "choreCategory",
       "categoryName": "05_Linge",
       "description": "Laundry",
-      "thumb": "images/categories/linge.png"
+      "thumb": "images/categories/laundry.png"
     },
     {
       "group" : "choreCategory",
       "categoryName": "06_Salle_de_bain",
       "description": "Bathroom",
-      "thumb": "images/categories/salledebain.png"
+      "thumb": "images/categories/bathroom.png"
     },
     {
       "group" : "choreCategory",
       "categoryName": "07_Maison",
       "description": "Various",
-      "thumb": "images/categories/maison.png"
+      "thumb": "images/categories/house.png"
     },
     {
       "group" : "choreCategory",
@@ -72,7 +72,7 @@
       "group" : "choreCategory",
       "categoryName": "09_Exterieur",
       "description": "Exterior",
-      "thumb": "images/categories/exterieur.png"
+      "thumb": "images/categories/garden.png"
     },
 
 
