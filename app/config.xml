@@ -83,9 +83,9 @@
     <gap:plugin name="cordova-plugin-statusbar" source="npm" />
     
     <gap:plugin name="com.adobe.plugins.gaplugin" />
-    <plugin name="com.adobe.plugins.gaplugin" source="pgb" spec="n/a" />-->
+    <plugin name="com.adobe.plugins.gaplugin" source="pgb" spec="n/a" />
     <plugin name="cordova-plugin-device" spec="n/a" />
-    <plugin name="cordova-plugin-statusbar" spec="n/a" />
+    <plugin name="cordova-plugin-statusbar" spec="n/a" />-->
 
 
     
