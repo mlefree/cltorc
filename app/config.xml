@@ -8,9 +8,12 @@
     <description>Cleanator ++</description>
     <author email="contact@apps4pro.com" href="https://apps4pro.com">Apps4pro Team</author>
 
-    <platform name="ios|android" />
+   
     <preference name="phonegap-version" value="cli-5.2.0" />
-    <preference name="loglevel" value="VERBOSE" />
+    <!--
+     <platform name="ios|android" />
+     <preference name="loglevel" value="VERBOSE" />
+     -->
 
     <!--    officials
     http://docs.build.phonegap.com/en_US/3.3.0/configuring_preferences.md.html#Preferences
