@@ -75,9 +75,12 @@
     <gap:plugin name="org.apache.cordova.network-information" />-->
    
     <!--<gap:plugin name="org.apache.cordova.device" />
-    <gap:plugin name="com.phonegap.plugin.statusbar" />-->
+    <gap:plugin name="com.phonegap.plugin.statusbar" />
+    <gap:plugin name="cordova-plugin-device" source="npm" />
+    <gap:plugin name="cordova-plugin-statusbar" source="npm" />
     
-    <plugin name="com.adobe.plugins.gaplugin" source="pgb" spec="n/a" />
+    <gap:plugin name="com.adobe.plugins.gaplugin" />
+    <plugin name="com.adobe.plugins.gaplugin" source="pgb" spec="n/a" />-->
     <plugin name="cordova-plugin-device" spec="n/a" />
     <plugin name="cordova-plugin-statusbar" spec="n/a" />
 
